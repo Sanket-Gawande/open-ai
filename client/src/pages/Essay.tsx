@@ -3,21 +3,21 @@ import { Link } from "react-router-dom"
 import Loader from "./components/Loader"
 const GenerateImage = () => {
   const [loading, setLoading] = useState(false)
-  const [result, setResult] = useState([])
+  const [result, setResult] = useState("")
   const [prompt, setPrompt] = useState(null)
   const [error, setError] = useState<boolean | string>(false)
   const getImage = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
     setLoading(true);
-    setResult([])
-    const req = await fetch(`http://localhost:6789/image/generate/${prompt}`);
+    setResult("")
+    const req = await fetch(`http://localhost:6789/generate/points/${prompt}`);
     const res = await req.json();
-    if (!res.ok) {
+    if (!res.success) {
       setError("Something went wrong!!!");
       return
     }
-    setResult(res?.images?.data)
+    setResult(res?.notes.choices[0].text)
     setLoading(false)
   }
   return (
@@ -46,18 +46,16 @@ const GenerateImage = () => {
                   text-sm 
                  font-semibold 
                  flex-1" placeholder="prompt: eg. dog riding bus" />
-          <button className="group-hover:bg-primary min-w-max bg-primary/50 group-hover:text-white transition-all duration-300 text-primary py-3 px-5 border-white hover:border-primary border rounded-r-md text-sm font-semibold" type="submit">Generate image</button>
+          <button className="group-hover:bg-primary min-w-max bg-primary/50 group-hover:text-white transition-all duration-300 text-primary py-3 px-5 border-white hover:border-primary border rounded-r-md text-sm font-semibold" type="submit">Enter</button>
         </form>
         {
           error &&
           <div className="bg-red-500/20 text-red-500 font-semibold text-sm p-4 w-[95%] mx-auto rounded-md max-w-[900px]" >{error}</div>
         }
         {/* image div */}
-        <div className="bg-slate-200 p-5  max-w-[900px] mx-auto w-[95%]  h-full flex items-center m-4 space-y-4 space-x-4 overflow-x-auto justify-center flex-wrap ">
+        <div className="bg-slate-200 p-5 text-md text-slate-600 font-medium  max-w-[900px] mx-auto w-[95%]  h-full flex items-center m-4 space-y-4 space-x-4 overflow-x-auto  flex-wrap ">
           {
-            result.map(({ url }) =>
-              <img className="w-[256px] h-[256px]" src={url || ""} />
-            )
+            result && result
           }
 
         </div>
