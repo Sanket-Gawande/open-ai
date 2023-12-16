@@ -55,7 +55,7 @@ const GenerateImage = () => {
         {/* image div */}
         <div className="bg-slate-200 p-5 text-md text-slate-600 font-medium  max-w-[900px] mx-auto w-[95%]  h-full flex items-center m-4 space-y-4 space-x-4 overflow-x-auto  flex-wrap ">
           {
-            result && result
+           result
           }
 
         </div>

@@ -11,7 +11,7 @@ const GenerateImage = () => {
 
     setLoading(true);
     setResult([])
-    const req = await fetch(`http://localhost:6789/image/generate/${prompt}`);
+    const req = await fetch(`http://localhost:6789/generate/image/${prompt}`);
     const res = await req.json();
     if (!res.ok) {
       setError("Something went wrong!!!");
